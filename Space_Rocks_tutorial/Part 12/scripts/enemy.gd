@@ -23,7 +23,7 @@ var pulse_timer
 func _ready():
 	pulse_timer = Timer.new()
 	add_child(pulse_timer)
-	pulse_timer.connect("timeout", self, "emit_pulse_timeout")
+#	pulse_timer.connect("timeout", self, "pulse_timeout")
 	add_to_group("enemies")
 	set_process(true)
 	randomize()
@@ -69,7 +69,7 @@ func shoot_pulse(n, delay):
 	for i in range(n):
 		shoot1()
 		pulse_delay(delay)
-		yield(self, "pulse_timeout")
+		yield(pulse_timer, "timeout") #connecting yield to puls_timer node's timeout signal
 
 func _on_shoot_timer_timeout():
 	if target.is_visible():
@@ -80,5 +80,5 @@ func pulse_delay(delay):
 	pulse_timer.set_timer_process_mode(0)
 	pulse_timer.start()
 
-func emit_pulse_timeout():
-	emit_signal("pulse_timeout")
+#func emit_pulse_timeout():
+#	emit_signal("pulse_timeout")
